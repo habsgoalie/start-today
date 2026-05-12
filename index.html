@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Start Today Demolition & Junk Removal | NH & MA</title>
+<meta name="description" content="Professional junk removal, demolition, and cleanouts serving New Hampshire and Massachusetts. Free quotes. Call today.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0d1f3c;
+    --navy-mid: #1a3460;
+    --navy-light: #234680;
+    --green: #2e7d4f;
+    --green-light: #38a063;
+    --green-pale: #e8f5ee;
+    --white: #ffffff;
+    --off-white: #f4f6f9;
+    --text: #1a1a2e;
+    --text-muted: #5a6478;
+    --border: #dde3ed;
+    --radius: 8px;
+    --radius-lg: 16px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Barlow', sans-serif;
+    font-size: 16px;
+    color: var(--text);
+    background: var(--white);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--navy);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+  }
+  .header-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .logo {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+  }
+  .logo-main {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 1.35rem;
+    color: var(--white);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+  .logo-sub {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.7rem;
+    color: var(--green-light);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .header-cta {
+    background: var(--green);
+    color: var(--white);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: var(--radius);
+    white-space: nowrap;
+    transition: background 0.2s;
+  }
+  .header-cta:hover { background: var(--green-light); }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--navy);
+    background-image:
+      linear-gradient(135deg, rgba(46,125,79,0.15) 0%, transparent 60%),
+      repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 40px,
+        rgba(255,255,255,0.015) 40px,
+        rgba(255,255,255,0.015) 41px
+      );
+    color: var(--white);
+    padding: 56px 20px 64px;
+    text-align: center;
+  }
+  .hero-eyebrow {
+    display: inline-block;
+    background: var(--green);
+    color: var(--white);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+  }
+  .hero h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2.4rem, 9vw, 4.2rem);
+    line-height: 1.0;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    margin-bottom: 16px;
+  }
+  .hero h1 span { color: var(--green-light); }
+  .hero-sub {
+    font-size: clamp(1rem, 3vw, 1.2rem);
+    color: rgba(255,255,255,0.75);
+    max-width: 560px;
+    margin: 0 auto 32px;
+    line-height: 1.6;
+  }
+  .hero-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  .btn-primary {
+    display: inline-block;
+    background: var(--green);
+    color: var(--white);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 1.2rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 16px 40px;
+    border-radius: var(--radius);
+    width: 100%;
+    max-width: 320px;
+    text-align: center;
+    transition: background 0.2s, transform 0.15s;
+    border: none;
+    cursor: pointer;
+  }
+  .btn-primary:hover { background: var(--green-light); transform: translateY(-1px); }
+  .btn-secondary {
+    display: inline-block;
+    background: transparent;
+    color: var(--white);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 14px 40px;
+    border-radius: var(--radius);
+    border: 2px solid rgba(255,255,255,0.3);
+    width: 100%;
+    max-width: 320px;
+    text-align: center;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .btn-secondary:hover { border-color: var(--white); background: rgba(255,255,255,0.07); }
+  .hero-note {
+    margin-top: 20px;
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  .hero-note::before { content: "✓"; color: var(--green-light); font-weight: 700; }
+
+  /* ── TRUST BAR ── */
+  .trust-bar {
+    background: var(--off-white);
+    border-bottom: 1px solid var(--border);
+    padding: 18px 20px;
+  }
+  .trust-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px 32px;
+  }
+  .trust-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--navy);
+  }
+  .trust-icon {
+    width: 22px;
+    height: 22px;
+    background: var(--green);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 0.7rem;
+    flex-shrink: 0;
+  }
+
+  /* ── SECTIONS ── */
+  section { padding: 60px 20px; }
+  .section-inner { max-width: 1100px; margin: 0 auto; }
+  .section-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 8px;
+  }
+  .section-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(1.8rem, 6vw, 2.8rem);
+    line-height: 1.05;
+    text-transform: uppercase;
+    color: var(--navy);
+    margin-bottom: 16px;
+  }
+  .section-body {
+    color: var(--text-muted);
+    line-height: 1.7;
+    max-width: 600px;
+    margin-bottom: 40px;
+  }
+
+  /* ── SERVICES ── */
+  .services-bg { background: var(--white); }
+  .services-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .service-card {
+    background: var(--off-white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 28px 24px;
+    border-top: 4px solid var(--navy);
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .service-card:hover { box-shadow: 0 8px 24px rgba(13,31,60,0.1); transform: translateY(-2px); }
+  .service-card.accent { border-top-color: var(--green); }
+  .service-icon {
+    width: 48px;
+    height: 48px;
+    background: var(--navy);
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    font-size: 1.4rem;
+  }
+  .service-card.accent .service-icon { background: var(--green); }
+  .service-card h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 1.3rem;
+    text-transform: uppercase;
+    color: var(--navy);
+    margin-bottom: 12px;
+    letter-spacing: 0.03em;
+  }
+  .service-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+  .service-list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+  }
+  .service-list li::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    background: var(--green);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* ── HOW IT WORKS ── */
+  .how-bg { background: var(--navy); }
+  .how-bg .section-title { color: var(--white); }
+  .how-bg .section-body { color: rgba(255,255,255,0.6); }
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+  }
+  .step {
+    display: flex;
+    gap: 20px;
+    padding-bottom: 36px;
+    position: relative;
+  }
+  .step:last-child { padding-bottom: 0; }
+  .step-line {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .step-num {
+    width: 44px;
+    height: 44px;
+    background: var(--green);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 1.2rem;
+    color: var(--white);
+    flex-shrink: 0;
+  }
+  .step-connector {
+    width: 2px;
+    flex: 1;
+    background: rgba(255,255,255,0.12);
+    margin-top: 8px;
+  }
+  .step:last-child .step-connector { display: none; }
+  .step-content { padding-top: 8px; }
+  .step-content h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 6px;
+    letter-spacing: 0.03em;
+  }
+  .step-content p {
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.6;
+  }
+
+  /* ── SERVICE AREA ── */
+  .area-bg { background: var(--off-white); }
+  .area-columns {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    margin-bottom: 28px;
+  }
+  .area-state {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    border-top: 4px solid var(--navy);
+  }
+  .area-state.ma { border-top-color: var(--green); }
+  .area-state h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    color: var(--navy);
+    margin-bottom: 14px;
+    letter-spacing: 0.05em;
+  }
+  .county-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .county-list li {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .county-list li::before {
+    content: "";
+    width: 5px;
+    height: 5px;
+    background: var(--green);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .area-note {
+    background: var(--green-pale);
+    border: 1px solid #b8ddc9;
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    font-size: 0.95rem;
+    color: var(--green);
+    font-weight: 600;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .area-note::before { content: "📍"; flex-shrink: 0; }
+
+  /* ── CONTACT ── */
+  .contact-bg { background: var(--white); }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .contact-info { display: flex; flex-direction: column; gap: 20px; }
+  .contact-method {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 20px;
+    background: var(--off-white);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+  }
+  .contact-method-icon {
+    width: 44px;
+    height: 44px;
+    background: var(--navy);
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+  .contact-method-text strong {
+    display: block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    margin-bottom: 3px;
+  }
+  .contact-method-text a, .contact-method-text span {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--navy);
+    text-decoration: none;
+  }
+  .contact-method-text a:hover { color: var(--green); }
+
+  /* ── FORM ── */
+  .form-card {
+    background: var(--off-white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 32px 24px;
+  }
+  .form-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    color: var(--navy);
+    margin-bottom: 6px;
+    letter-spacing: 0.02em;
+  }
+  .form-sub {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+    line-height: 1.5;
+  }
+  .form-row {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-group label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+  }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    font-family: 'Barlow', sans-serif;
+    font-size: 0.95rem;
+    color: var(--text);
+    background: var(--white);
+    transition: border-color 0.2s;
+    appearance: none;
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    outline: none;
+    border-color: var(--green);
+  }
+  .form-group textarea { resize: vertical; min-height: 110px; }
+  .form-submit {
+    width: 100%;
+    background: var(--green);
+    color: var(--white);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 1.15rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 16px;
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-top: 8px;
+  }
+  .form-submit:hover { background: var(--green-light); }
+  .form-legal {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    text-align: center;
+    margin-top: 12px;
+    line-height: 1.5;
+  }
+  .success-msg {
+    display: none;
+    background: var(--green-pale);
+    border: 1.5px solid #b8ddc9;
+    border-radius: var(--radius);
+    padding: 20px;
+    text-align: center;
+    color: var(--green);
+    font-weight: 600;
+    margin-top: 16px;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--navy);
+    color: rgba(255,255,255,0.6);
+    padding: 40px 20px 28px;
+  }
+  .footer-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .footer-top {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    margin-bottom: 20px;
+  }
+  .footer-brand .logo-main { font-size: 1.2rem; }
+  .footer-brand p {
+    font-size: 0.85rem;
+    line-height: 1.6;
+    margin-top: 8px;
+    max-width: 300px;
+  }
+  .footer-links h4 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 10px;
+  }
+  .footer-links ul { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+  .footer-links a {
+    color: rgba(255,255,255,0.65);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--green-light); }
+  .footer-bottom {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 0.78rem;
+  }
+  .social-links {
+    display: flex;
+    gap: 12px;
+    margin-top: 4px;
+  }
+  .social-link {
+    width: 36px;
+    height: 36px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255,255,255,0.65);
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: background 0.2s;
+  }
+  .social-link:hover { background: var(--green); color: white; }
+
+  /* ── DESKTOP ── */
+  @media (min-width: 640px) {
+    .hero-actions { flex-direction: row; justify-content: center; }
+    .btn-primary, .btn-secondary { width: auto; }
+    .services-grid { grid-template-columns: 1fr 1fr; }
+    .area-columns { grid-template-columns: 1fr 1fr; }
+    .form-row { flex-direction: row; }
+    .form-row .form-group { flex: 1; }
+  }
+
+  @media (min-width: 900px) {
+    .services-grid { grid-template-columns: 1fr 1fr; }
+    .contact-grid { grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+    .footer-top { flex-direction: row; justify-content: space-between; }
+    .steps { flex-direction: row; gap: 0; }
+    .step { flex-direction: column; flex: 1; padding-bottom: 0; padding-right: 24px; }
+    .step:last-child { padding-right: 0; }
+    .step-line { flex-direction: row; margin-bottom: 16px; }
+    .step-connector { width: auto; height: 2px; flex: 1; margin-top: 0; margin-left: 8px; }
+    .step-content { padding-top: 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <div class="logo">
+      <span class="logo-main">Start Today</span>
+      <span class="logo-sub">Demolition &amp; Junk Removal</span>
+    </div>
+    <a href="#contact" class="header-cta">Free Quote</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">Serving NH &amp; MA</div>
+  <h1>We Haul It.<br><span>You're Done.</span></h1>
+  <p class="hero-sub">Junk removal, demolition, and cleanouts — done fast, done right. Serving New Hampshire and Massachusetts.</p>
+  <div class="hero-actions">
+    <a href="tel:+1XXXXXXXXXX" class="btn-primary">📞 Call Now</a>
+    <a href="#contact" class="btn-secondary">Get a Free Quote</a>
+  </div>
+  <p class="hero-note">Free estimates — no obligation</p>
+</section>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="trust-inner">
+    <div class="trust-item"><div class="trust-icon">✓</div>Free Estimates</div>
+    <div class="trust-item"><div class="trust-icon">✓</div>Same-Week Service</div>
+    <div class="trust-item"><div class="trust-icon">✓</div>Fully Insured</div>
+    <div class="trust-item"><div class="trust-icon">✓</div>NH &amp; MA Service Area</div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section class="services-bg" id="services">
+  <div class="section-inner">
+    <div class="section-label">What We Do</div>
+    <h2 class="section-title">Our Services</h2>
+    <p class="section-body">From full interior demolitions to single-item hauls — we handle the heavy lifting so you don't have to.</p>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">🔨</div>
+        <h3>Demolition</h3>
+        <ul class="service-list">
+          <li>Bathroom demolition</li>
+          <li>Kitchen demolition</li>
+          <li>Shed removal</li>
+          <li>Wall removal</li>
+          <li>Flooring tear-out</li>
+          <li>And more</li>
+        </ul>
+      </div>
+      <div class="service-card accent">
+        <div class="service-icon">🚛</div>
+        <h3>Waste Removal</h3>
+        <ul class="service-list">
+          <li>Estate cleanouts</li>
+          <li>Garage cleanouts</li>
+          <li>Storage unit cleanouts</li>
+          <li>Yard waste removal</li>
+          <li>Furniture removal</li>
+          <li>Construction debris</li>
+        </ul>
+      </div>
+      <div class="service-card accent">
+        <div class="service-icon">🏠</div>
+        <h3>Hauling</h3>
+        <ul class="service-list">
+          <li>Full property cleanouts</li>
+          <li>Appliance removal</li>
+          <li>Hot tub &amp; deck removal</li>
+          <li>Single item pickup</li>
+          <li>Same-day hauls available</li>
+        </ul>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">📦</div>
+        <h3>Specialty Cleanouts</h3>
+        <ul class="service-list">
+          <li>Foreclosure cleanouts</li>
+          <li>Rental property turnover</li>
+          <li>Hoarding situations</li>
+          <li>Commercial spaces</li>
+          <li>Basement &amp; attic cleanouts</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-bg" id="how">
+  <div class="section-inner">
+    <div class="section-label" style="color: var(--green-light);">Simple Process</div>
+    <h2 class="section-title">How It Works</h2>
+    <p class="section-body">Three steps from first call to clean space.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-line">
+          <div class="step-num">1</div>
+          <div class="step-connector"></div>
+        </div>
+        <div class="step-content">
+          <h3>Get a Free Quote</h3>
+          <p>Call us or fill out our form. We'll give you a no-obligation estimate — often same day.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-line">
+          <div class="step-num">2</div>
+          <div class="step-connector"></div>
+        </div>
+        <div class="step-content">
+          <h3>Schedule a Time</h3>
+          <p>Pick a date that works for you. We offer flexible scheduling including evenings and weekends.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-line">
+          <div class="step-num">3</div>
+          <div class="step-connector"></div>
+        </div>
+        <div class="step-content">
+          <h3>We Handle Everything</h3>
+          <p>We show up, load up, and haul away. You don't lift a finger. Done.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICE AREA -->
+<section class="area-bg" id="area">
+  <div class="section-inner">
+    <div class="section-label">Coverage</div>
+    <h2 class="section-title">Service Area</h2>
+    <p class="section-body">Based near Nashua, NH — we serve a wide radius across New Hampshire and northern Massachusetts.</p>
+    <div class="area-columns">
+      <div class="area-state">
+        <h3>🏔 New Hampshire</h3>
+        <ul class="county-list">
+          <li>Hillsborough County</li>
+          <li>Rockingham County</li>
+          <li>Merrimack County</li>
+          <li>Strafford County</li>
+          <li>Belknap County</li>
+          <li>Cheshire County</li>
+          <li>Sullivan County</li>
+        </ul>
+      </div>
+      <div class="area-state ma">
+        <h3>🦞 Massachusetts</h3>
+        <ul class="county-list">
+          <li>Middlesex County</li>
+          <li>Essex County</li>
+          <li>Worcester County</li>
+          <li>Norfolk County</li>
+          <li>Suffolk County</li>
+        </ul>
+      </div>
+    </div>
+    <div class="area-note">
+      Not sure if we cover your area? Give us a call — we work within approximately 1 hour of Nashua, NH and are happy to travel for larger jobs.
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-bg" id="contact">
+  <div class="section-inner">
+    <div class="section-label">Get in Touch</div>
+    <h2 class="section-title">Request a Free Quote</h2>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <p style="color: var(--text-muted); line-height: 1.7; margin-bottom: 8px;">
+          Ready to clear the clutter? Reach out and we'll get back to you fast — usually same day.
+        </p>
+        <div class="contact-method">
+          <div class="contact-method-icon">📞</div>
+          <div class="contact-method-text">
+            <strong>Call or Text</strong>
+            <a href="tel:+1XXXXXXXXXX">(XXX) XXX-XXXX</a>
+          </div>
+        </div>
+        <div class="contact-method">
+          <div class="contact-method-icon">✉️</div>
+          <div class="contact-method-text">
+            <strong>Email</strong>
+            <a href="mailto:Inquirys@starttoday.com">Inquirys@starttoday.com</a>
+          </div>
+        </div>
+        <div class="contact-method">
+          <div class="contact-method-icon">🕐</div>
+          <div class="contact-method-text">
+            <strong>Hours</strong>
+            <span>7 days a week — call for availability</span>
+          </div>
+        </div>
+        <div class="social-links">
+          <a href="#" class="social-link" aria-label="Facebook">f</a>
+          <a href="#" class="social-link" aria-label="Instagram">in</a>
+        </div>
+      </div>
+
+      <div class="form-card">
+        <div class="form-title">Get Your Free Estimate</div>
+        <p class="form-sub">Fill out the form below and we'll get back to you within a few hours.</p>
+        <form id="quote-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name">Your Name</label>
+              <input type="text" id="name" name="name" placeholder="John Smith" required>
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone Number</label>
+              <input type="tel" id="phone" name="phone" placeholder="(603) 555-0100" required>
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom: 14px;">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" placeholder="you@example.com">
+          </div>
+          <div class="form-group" style="margin-bottom: 14px;">
+            <label for="service">Service Needed</label>
+            <select id="service" name="service">
+              <option value="">— Select a service —</option>
+              <option>Junk Removal</option>
+              <option>Demolition</option>
+              <option>Estate / Garage Cleanout</option>
+              <option>Yard Waste Removal</option>
+              <option>Hauling</option>
+              <option>Other / Not Sure</option>
+            </select>
+          </div>
+          <div class="form-group" style="margin-bottom: 14px;">
+            <label for="message">Tell Us About the Job</label>
+            <textarea id="message" name="message" placeholder="Describe what needs to go, your location, and any timing needs..."></textarea>
+          </div>
+          <button type="submit" class="form-submit">Send My Free Quote Request →</button>
+          <p class="form-legal">We'll never share your info. No spam, ever.</p>
+        </form>
+        <div class="success-msg" id="success-msg">
+          ✅ Got it! We'll be in touch soon with your free estimate.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="logo">
+          <span class="logo-main">Start Today</span>
+          <span class="logo-sub">Demolition &amp; Junk Removal</span>
+        </div>
+        <p>Professional junk removal and demolition serving New Hampshire and Massachusetts. Free quotes. Fast service. No hassle.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#how">How It Works</a></li>
+          <li><a href="#area">Service Area</a></li>
+          <li><a href="#contact">Get a Quote</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="tel:+1XXXXXXXXXX">(XXX) XXX-XXXX</a></li>
+          <li><a href="mailto:Inquirys@starttoday.com">Inquirys@starttoday.com</a></li>
+          <li><a href="#area">Nashua, NH area</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Start Today Demolition &amp; Junk Removal. All rights reserved.</span>
+      <span>Serving NH &amp; MA — within 1 hour of Nashua</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Formspree AJAX submission
+  const form = document.getElementById('quote-form');
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = form.querySelector('.form-submit');
+    btn.textContent = 'Sending…';
+    btn.disabled = true;
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      });
+      if (res.ok) {
+        form.style.display = 'none';
+        document.getElementById('success-msg').style.display = 'block';
+      } else {
+        btn.textContent = 'Error — Try Again';
+        btn.disabled = false;
+      }
+    } catch {
+      btn.textContent = 'Error — Try Again';
+      btn.disabled = false;
+    }
+  });
+</script>
+
+</body>
+</html>
