@@ -662,7 +662,8 @@
   .gallery-item img { width: 100%; height: auto; display: block; object-fit: cover; max-height: 400px; }
   .gallery-caption { padding: 12px 16px; font-size: 0.95rem; color: var(--text); }
   .caption-tag { display: inline-block; background: var(--green); color: #fff; font-size: 0.8rem; font-weight: 700; padding: 2px 10px; border-radius: 999px; margin-right: 8px; }
-  .before-after { display: grid; grid-template-columns: 1fr; gap: 16px; }
+  .before-after { display: grid; grid-template-columns: 1fr; gap: 16px; grid-column: 1 / -1; }
+  .gallery-loading { text-align: center; padding: 40px; color: #94a3b8; grid-column: 1 / -1; }
 
   @media (min-width: 640px) {
     .before-after { grid-template-columns: 1fr 1fr; }
@@ -784,21 +785,8 @@
     <div class="section-label">Real Jobs</div>
     <h2 class="section-title">Our Work</h2>
     <p class="section-body">We don't just haul — we leave the space clean and ready. Here's a look at recent jobs.</p>
-    <div class="gallery-grid">
-      <div class="gallery-item wide">
-        <img src="img/image1.jpg" alt="Truck bed loaded with yard waste and brush — Start Today Junk Removal">
-        <div class="gallery-caption"><span class="caption-tag">Yard Waste</span> Full truck haul — brush &amp; debris removal</div>
-      </div>
-      <div class="before-after">
-        <div class="gallery-item">
-          <img src="img/image2.jpg" alt="Room after demolition with debris on floor">
-          <div class="gallery-caption"><span class="caption-tag" style="background:var(--navy-light);">Before</span> Post-demo debris</div>
-        </div>
-        <div class="gallery-item">
-          <img src="img/image3.jpg" alt="Clean empty room after junk removal">
-          <div class="gallery-caption"><span class="caption-tag">After</span> Cleared &amp; clean</div>
-        </div>
-      </div>
+    <div class="gallery-grid" id="gallery-grid">
+      <p class="gallery-loading">Loading gallery...</p>
     </div>
   </div>
 </section>
@@ -1023,6 +1011,51 @@
       btn.disabled = false;
     }
   });
+</script>
+
+<script>
+  // Gallery — loads photos from Cloudflare Worker + R2
+  (function() {
+    var WORKER_URL = 'https://start-today-gallery.kevin-g-olson.workers.dev';
+    var grid = document.getElementById('gallery-grid');
+
+    fetch(WORKER_URL + '/api/gallery')
+      .then(function(res) { return res.json(); })
+      .then(function(items) {
+        if (!items.length) {
+          grid.innerHTML = '<p class="gallery-loading">Photos coming soon!</p>';
+          return;
+        }
+        var base = WORKER_URL + '/image/';
+        var html = '';
+        for (var i = 0; i < items.length; i++) {
+          var it = items[i];
+          if (it.type === 'single') {
+            var src = base + it.image.replace('images/', '');
+            html += '<div class="gallery-item">' +
+              '<img src="' + src + '" alt="' + (it.caption || 'Gallery photo') + '">' +
+              '<div class="gallery-caption">' +
+              (it.tag ? '<span class="caption-tag">' + it.tag + '</span> ' : '') +
+              it.caption + '</div></div>';
+          } else {
+            var bSrc = base + it.before.image.replace('images/', '');
+            var aSrc = base + it.after.image.replace('images/', '');
+            html += '<div class="before-after">' +
+              '<div class="gallery-item">' +
+              '<img src="' + bSrc + '" alt="' + (it.before.caption || 'Before') + '">' +
+              '<div class="gallery-caption"><span class="caption-tag" style="background:var(--navy-light);">Before</span> ' + it.before.caption + '</div></div>' +
+              '<div class="gallery-item">' +
+              '<img src="' + aSrc + '" alt="' + (it.after.caption || 'After') + '">' +
+              '<div class="gallery-caption"><span class="caption-tag">After</span> ' + it.after.caption + '</div></div>' +
+              '</div>';
+          }
+        }
+        grid.innerHTML = html;
+      })
+      .catch(function() {
+        grid.innerHTML = '<p class="gallery-loading">Photos coming soon!</p>';
+      });
+  })();
 </script>
 
 </body>
