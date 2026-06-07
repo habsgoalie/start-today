@@ -1,0 +1,8 @@
+worker/
+node_modules/
+.wrangler/
+.dev.vars
+.git/
+wrangler.toml
+.gitignore
+.assetsignore
