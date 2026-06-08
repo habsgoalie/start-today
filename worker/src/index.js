@@ -2,7 +2,7 @@
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'GET, POST, DELETE, OPTIONS',
+  'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type, X-Admin-Password',
 };
 
@@ -115,20 +115,59 @@ export default {
         return jsonRes({ success: true });
       }
 
+      // Auth: update item captions/tags
+      if (url.pathname.startsWith('/api/update/') && request.method === 'PUT') {
+        if (!checkAuth(request, env)) return jsonRes({ error: 'Wrong password' }, 401);
+        const id = url.pathname.replace('/api/update/', '');
+        const body = await request.json();
+        const gallery = await getGallery(env);
+        const idx = gallery.findIndex(function (i) { return i.id === id; });
+        if (idx === -1) return jsonRes({ error: 'Not found' }, 404);
+
+        if (gallery[idx].type === 'single') {
+          if (body.caption !== undefined) gallery[idx].caption = body.caption;
+          if (body.tag !== undefined) gallery[idx].tag = body.tag;
+        } else {
+          if (body.before_caption !== undefined) gallery[idx].before.caption = body.before_caption;
+          if (body.after_caption !== undefined) gallery[idx].after.caption = body.after_caption;
+        }
+
+        await saveGallery(env, gallery);
+        return jsonRes({ success: true });
+      }
+
+      // Auth: reorder gallery
+      if (url.pathname === '/api/reorder' && request.method === 'PUT') {
+        if (!checkAuth(request, env)) return jsonRes({ error: 'Wrong password' }, 401);
+        const body = await request.json();
+        const order = body.order;
+        const gallery = await getGallery(env);
+        const reordered = [];
+        for (var i = 0; i < order.length; i++) {
+          var item = gallery.find(function (g) { return g.id === order[i]; });
+          if (item) reordered.push(item);
+        }
+        for (var j = 0; j < gallery.length; j++) {
+          if (order.indexOf(gallery[j].id) === -1) reordered.push(gallery[j]);
+        }
+        await saveGallery(env, reordered);
+        return jsonRes({ success: true });
+      }
+
       // Auth: delete item
       if (url.pathname.startsWith('/api/delete/') && request.method === 'DELETE') {
         if (!checkAuth(request, env)) return jsonRes({ error: 'Wrong password' }, 401);
         const id = url.pathname.replace('/api/delete/', '');
         const gallery = await getGallery(env);
-        const item = gallery.find(function (i) { return i.id === id; });
-        if (!item) return jsonRes({ error: 'Not found' }, 404);
+        const found = gallery.find(function (i) { return i.id === id; });
+        if (!found) return jsonRes({ error: 'Not found' }, 404);
 
-        if (item.type === 'single') {
-          await env.BUCKET.delete(item.image);
+        if (found.type === 'single') {
+          await env.BUCKET.delete(found.image);
         } else {
           await Promise.all([
-            env.BUCKET.delete(item.before.image),
-            env.BUCKET.delete(item.after.image),
+            env.BUCKET.delete(found.before.image),
+            env.BUCKET.delete(found.after.image),
           ]);
         }
 
@@ -178,6 +217,9 @@ const ADMIN_HTML = `<!DOCTYPE html>
   button{padding:10px 20px;border-radius:8px;border:none;font-size:.95rem;font-weight:600;cursor:pointer}
   .btn{background:#4ade80;color:#000} .btn:hover{background:#22c55e}
   .btn-del{background:#ef4444;color:#fff;padding:6px 12px;font-size:.8rem}
+  .btn-edit{background:#3b82f6;color:#fff;padding:6px 12px;font-size:.8rem}
+  .btn-move{background:#334155;color:#e2e8f0;padding:6px 8px;font-size:.85rem;min-width:32px}
+  .btn-cancel{background:#334155;color:#e2e8f0}
   .tabs{display:flex;gap:8px;margin-bottom:16px}
   .tab{flex:1;text-align:center;padding:10px;border-radius:8px;cursor:pointer;background:#0f172a;font-weight:500;color:#94a3b8}
   .tab.active{background:#4ade80;color:#000}
@@ -185,13 +227,21 @@ const ADMIN_HTML = `<!DOCTYPE html>
   .preview{max-width:100%;max-height:200px;border-radius:8px;margin-bottom:12px;display:none}
   .status{padding:10px;border-radius:8px;margin-bottom:12px;text-align:center;display:none;font-size:.9rem}
   .status.ok{background:#065f46;display:block} .status.err{background:#7f1d1d;display:block} .status.info{background:#1e40af;display:block}
-  .entry{display:flex;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid #334155}
+  .entry{display:flex;gap:8px;align-items:center;padding:12px 0;border-bottom:1px solid #334155;flex-wrap:wrap}
   .entry:last-child{border-bottom:none}
   .entry img{width:80px;height:60px;object-fit:cover;border-radius:6px;flex-shrink:0}
   .entry .inf{flex:1;min-width:0} .entry .inf strong{display:block;font-size:.85rem} .entry .inf span{font-size:.8rem;color:#94a3b8}
   .pair{display:flex;gap:4px}
+  .actions{display:flex;gap:4px;flex-shrink:0}
   .empty{color:#64748b;text-align:center;padding:24px}
   .pwr{display:flex;gap:8px} .pwr input{flex:1;margin-bottom:0}
+  .drag-handle{cursor:grab;font-size:1.3rem;color:#64748b;flex-shrink:0;user-select:none;padding:0 2px}
+  .entry.drag-over{border-top:2px solid #4ade80;padding-top:10px}
+  .modal-bg{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);z-index:100;align-items:center;justify-content:center;padding:16px}
+  .modal{background:#1e293b;border-radius:12px;padding:24px;width:100%;max-width:500px}
+  .modal h3{margin-bottom:16px;font-size:1.1rem}
+  .modal-btns{display:flex;gap:8px;margin-top:16px}
+  .modal-btns button{flex:1}
 </style>
 </head>
 <body>
@@ -241,11 +291,28 @@ const ADMIN_HTML = `<!DOCTYPE html>
 
 <div class="card">
   <h2>Current Gallery</h2>
+  <p style="font-size:.8rem;color:#64748b;margin-bottom:12px">Drag to reorder, or use arrows. Changes save automatically.</p>
   <div id="list"><p class="empty">Loading...</p></div>
+</div>
+
+<div id="modal-bg" class="modal-bg" onclick="closeModal()">
+  <div class="modal" onclick="event.stopPropagation()">
+    <h3>Edit Details</h3>
+    <div id="m-fields"></div>
+    <div class="modal-btns">
+      <button class="btn" onclick="saveEdit()">Save</button>
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+    </div>
+  </div>
 </div>
 
 <script>
 var pw = localStorage.getItem('st_pw') || '';
+var galleryData = [];
+var editId = null;
+var dragId = null;
+var orderTimeout = null;
+
 document.getElementById('pw').value = pw;
 
 function savePw() {
@@ -301,7 +368,10 @@ function compress(file) {
 
 async function api(method, path, body) {
   var opts = { method: method, headers: { 'X-Admin-Password': pw } };
-  if (body) opts.body = body;
+  if (body) {
+    opts.body = body;
+    if (typeof body === 'string') opts.headers['Content-Type'] = 'application/json';
+  }
   var res = await fetch(path, opts);
   return res.json();
 }
@@ -357,37 +427,198 @@ async function delItem(btn) {
   else { msg(r.error || 'Delete failed', 'err'); }
 }
 
+// ── Edit ──
+
+function escAttr(s) {
+  return (s || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+}
+
 function esc(s) {
   var d = document.createElement('div');
   d.textContent = s || '';
   return d.innerHTML;
 }
 
+function editItem(btn) {
+  editId = btn.dataset.id;
+  var item = null;
+  for (var i = 0; i < galleryData.length; i++) {
+    if (galleryData[i].id === editId) { item = galleryData[i]; break; }
+  }
+  if (!item) return;
+
+  var f = document.getElementById('m-fields');
+  if (item.type === 'single') {
+    f.innerHTML =
+      '<label>Caption</label>' +
+      '<input type="text" id="e-cap" value="' + escAttr(item.caption) + '">' +
+      '<label>Tag</label>' +
+      '<input type="text" id="e-tag" value="' + escAttr(item.tag) + '">';
+  } else {
+    f.innerHTML =
+      '<label>Before Caption</label>' +
+      '<input type="text" id="e-bcap" value="' + escAttr(item.before.caption) + '">' +
+      '<label>After Caption</label>' +
+      '<input type="text" id="e-acap" value="' + escAttr(item.after.caption) + '">';
+  }
+  document.getElementById('modal-bg').style.display = 'flex';
+}
+
+async function saveEdit() {
+  var item = null;
+  for (var i = 0; i < galleryData.length; i++) {
+    if (galleryData[i].id === editId) { item = galleryData[i]; break; }
+  }
+  if (!item) return;
+
+  var body = {};
+  if (item.type === 'single') {
+    body.caption = document.getElementById('e-cap').value;
+    body.tag = document.getElementById('e-tag').value;
+  } else {
+    body.before_caption = document.getElementById('e-bcap').value;
+    body.after_caption = document.getElementById('e-acap').value;
+  }
+
+  var r = await api('PUT', '/api/update/' + editId, JSON.stringify(body));
+  if (r.success) {
+    msg('Updated!', 'ok');
+    closeModal();
+    loadGallery();
+  } else { msg(r.error || 'Update failed', 'err'); }
+}
+
+function closeModal() {
+  document.getElementById('modal-bg').style.display = 'none';
+  editId = null;
+}
+
+// ── Drag & Drop ──
+
+function dStart(e, el) {
+  dragId = el.dataset.id;
+  el.style.opacity = '0.4';
+  e.dataTransfer.effectAllowed = 'move';
+}
+
+function dOver(e, el) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  var entries = document.querySelectorAll('.entry');
+  for (var i = 0; i < entries.length; i++) entries[i].classList.remove('drag-over');
+  el.classList.add('drag-over');
+}
+
+function dDrop(e, el) {
+  e.preventDefault();
+  var targetId = el.dataset.id;
+  if (!dragId || dragId === targetId) return;
+  var fromIdx = -1, toIdx = -1;
+  for (var i = 0; i < galleryData.length; i++) {
+    if (galleryData[i].id === dragId) fromIdx = i;
+    if (galleryData[i].id === targetId) toIdx = i;
+  }
+  if (fromIdx === -1 || toIdx === -1) return;
+  var moved = galleryData.splice(fromIdx, 1)[0];
+  galleryData.splice(toIdx, 0, moved);
+  renderGallery();
+  saveOrder();
+}
+
+function dEnd() {
+  dragId = null;
+  var entries = document.querySelectorAll('.entry');
+  for (var i = 0; i < entries.length; i++) {
+    entries[i].style.opacity = '1';
+    entries[i].classList.remove('drag-over');
+  }
+}
+
+// ── Move Up / Down ──
+
+function moveUp(btn) {
+  var id = btn.dataset.id;
+  var idx = -1;
+  for (var i = 0; i < galleryData.length; i++) {
+    if (galleryData[i].id === id) { idx = i; break; }
+  }
+  if (idx <= 0) return;
+  var temp = galleryData[idx];
+  galleryData[idx] = galleryData[idx - 1];
+  galleryData[idx - 1] = temp;
+  renderGallery();
+  saveOrder();
+}
+
+function moveDown(btn) {
+  var id = btn.dataset.id;
+  var idx = -1;
+  for (var i = 0; i < galleryData.length; i++) {
+    if (galleryData[i].id === id) { idx = i; break; }
+  }
+  if (idx === -1 || idx >= galleryData.length - 1) return;
+  var temp = galleryData[idx];
+  galleryData[idx] = galleryData[idx + 1];
+  galleryData[idx + 1] = temp;
+  renderGallery();
+  saveOrder();
+}
+
+function saveOrder() {
+  clearTimeout(orderTimeout);
+  orderTimeout = setTimeout(async function() {
+    var order = [];
+    for (var i = 0; i < galleryData.length; i++) order.push(galleryData[i].id);
+    var r = await api('PUT', '/api/reorder', JSON.stringify({ order: order }));
+    if (r.success) msg('Order saved', 'ok');
+    else msg(r.error || 'Failed to save order', 'err');
+  }, 500);
+}
+
+// ── Gallery Rendering ──
+
+function renderGallery() {
+  var el = document.getElementById('list');
+  if (!galleryData.length) {
+    el.innerHTML = '<p class="empty">No photos yet. Upload your first one above!</p>';
+    return;
+  }
+  var html = '';
+  for (var i = 0; i < galleryData.length; i++) {
+    var it = galleryData[i];
+    var entryStart = '<div class="entry" data-id="' + it.id + '" draggable="true" ondragstart="dStart(event,this)" ondragover="dOver(event,this)" ondrop="dDrop(event,this)" ondragend="dEnd()">';
+    var handle = '<div class="drag-handle">&#9776;</div>';
+    var actions = '<div class="actions">' +
+      '<button class="btn-edit" data-id="' + it.id + '" onclick="editItem(this)">Edit</button>' +
+      '<button class="btn-move" data-id="' + it.id + '" onclick="moveUp(this)">&uarr;</button>' +
+      '<button class="btn-move" data-id="' + it.id + '" onclick="moveDown(this)">&darr;</button>' +
+      '<button class="btn-del" data-id="' + it.id + '" onclick="delItem(this)">Delete</button>' +
+      '</div>';
+
+    if (it.type === 'single') {
+      html += entryStart + handle +
+        '<img src="/image/' + it.image.replace('images/', '') + '">' +
+        '<div class="inf"><strong>' + esc(it.tag) + '</strong><span>' + esc(it.caption) + '</span></div>' +
+        actions + '</div>';
+    } else {
+      html += entryStart + handle +
+        '<div class="pair">' +
+        '<img src="/image/' + it.before.image.replace('images/', '') + '">' +
+        '<img src="/image/' + it.after.image.replace('images/', '') + '">' +
+        '</div>' +
+        '<div class="inf"><strong>Before &amp; After</strong><span>' + esc(it.before.caption) + ' / ' + esc(it.after.caption) + '</span></div>' +
+        actions + '</div>';
+    }
+  }
+  el.innerHTML = html;
+}
+
 async function loadGallery() {
   var el = document.getElementById('list');
   try {
     var res = await fetch('/api/gallery');
-    var items = await res.json();
-    if (!items.length) { el.innerHTML = '<p class="empty">No photos yet. Upload your first one above!</p>'; return; }
-    var html = '';
-    for (var i = 0; i < items.length; i++) {
-      var it = items[i];
-      if (it.type === 'single') {
-        html += '<div class="entry">' +
-          '<img src="/image/' + it.image.replace('images/', '') + '">' +
-          '<div class="inf"><strong>' + esc(it.tag) + '</strong><span>' + esc(it.caption) + '</span></div>' +
-          '<button class="btn-del" data-id="' + it.id + '" onclick="delItem(this)">Delete</button></div>';
-      } else {
-        html += '<div class="entry">' +
-          '<div class="pair">' +
-          '<img src="/image/' + it.before.image.replace('images/', '') + '">' +
-          '<img src="/image/' + it.after.image.replace('images/', '') + '">' +
-          '</div>' +
-          '<div class="inf"><strong>Before & After</strong><span>' + esc(it.before.caption) + ' / ' + esc(it.after.caption) + '</span></div>' +
-          '<button class="btn-del" data-id="' + it.id + '" onclick="delItem(this)">Delete</button></div>';
-      }
-    }
-    el.innerHTML = html;
+    galleryData = await res.json();
+    renderGallery();
   } catch(e) {
     el.innerHTML = '<p class="empty">Could not load gallery</p>';
   }
